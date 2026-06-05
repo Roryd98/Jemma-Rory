@@ -29,9 +29,9 @@
     text-decoration: none; color: var(--mid-text);
     font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase;
   }
-  nav a.active { color: var(--blush); }
+  nav a.active { color: #A85A68; }
   main { max-width: 980px; margin: 0 auto; padding: 3rem 1.2rem 4rem; }
-  .section-label { font-size: 0.6rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--blush); margin-bottom: 0.8rem; display: block; }
+  .section-label { font-size: 0.6rem; letter-spacing: 0.32em; text-transform: uppercase; color: #A85A68; margin-bottom: 0.8rem; display: block; }
   .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem,5vw,3.2rem); font-style: italic; font-weight: 300; color: var(--rose-accent); margin-bottom: 1.3rem; }
   .ornament { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
   .ornament-line { flex: 1; height: 1px; background: var(--blush); }
@@ -40,11 +40,11 @@
   .venue-photo { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 3px; background: var(--blush-pale); }
   .map-box { margin-top: 0.8rem; background: #fff; border: 1px solid var(--blush-pale); border-radius: 3px; padding: 0.9rem; }
   .map-box span { display: block; margin-bottom: 0.45rem; color: var(--rose-accent); font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.03rem; }
-  .map-box a { color: var(--blush); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.07em; }
+  .map-box a { color: #A85A68; text-decoration: none; font-size: 0.75rem; letter-spacing: 0.07em; }
   .vdr { display: flex; gap: 0.9rem; margin-bottom: 0.9rem; border-bottom: 1px solid var(--blush-pale); padding-bottom: 0.9rem; }
   .vdr:last-child { border-bottom: none; }
   .vicon { flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; background: var(--blush-pale); display: flex; align-items: center; justify-content: center; color: var(--blush); }
-  .vlabel { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--blush); display: block; margin-bottom: 0.2rem; }
+  .vlabel { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: #A85A68; display: block; margin-bottom: 0.2rem; }
   .vvalue { font-size: 0.88rem; color: var(--mid-text); line-height: 1.6; }
   h3 { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.45rem; color: var(--rose-accent); margin-bottom: 1rem; }
   @media (max-width: 760px) { .venue-grid { grid-template-columns: 1fr; } }
@@ -74,9 +74,9 @@
       </div>
     </div>
     <div>
-      <div class="vdr"><div class="vicon">⛪</div><div><span class="vlabel">Church</span><p class="vvalue">St John's Church<br>Main Street, Moira<br>Co. Down, BT67 0LH</p></div></div>
-      <div class="vdr"><div class="vicon">◷</div><div><span class="vlabel">Ceremony Time</span><p class="vvalue">12:00 noon<br>Please be seated by 11:45am</p></div></div>
-      <div class="vdr"><div class="vicon">⊕</div><div><span class="vlabel">Directions to Moira</span><p class="vvalue">Moira is located on the A3, approximately 15 miles south-west of Belfast. Parking is available in the church car park on Meeting Street.</p></div></div>
+      <div class="vdr"><div class="vicon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#9B8B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="1" x2="9" y2="5"/><line x1="7" y1="3" x2="11" y2="3"/><path d="M4 9l5-4 5 4v7H4V9z"/><rect x="7" y="12" width="4" height="4"/></svg></div><div><span class="vlabel">Church</span><p class="vvalue">St John's Church<br>Main Street, Moira<br>Co. Down, BT67 0LH</p></div></div>
+      <div class="vdr"><div class="vicon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#9B8B6B" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="9" r="7"/><polyline points="9,5 9,9 12,11"/></svg></div><div><span class="vlabel">Ceremony Time</span><p class="vvalue">12:00 noon<br>Please be seated by 11:45am</p></div></div>
+      <div class="vdr"><div class="vicon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#9B8B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 16s-5.5-5.5-5.5-9a5.5 5.5 0 0 1 11 0c0 3.5-5.5 9-5.5 9z"/><circle cx="9" cy="7" r="2"/></svg></div><div><span class="vlabel">Directions to Moira</span><p class="vvalue">Moira is located on the A3, approximately 15 miles south-west of Belfast. Parking is available in the church car park on Meeting Street.</p></div></div>
     </div>
   </div>
 
@@ -90,10 +90,10 @@
       </div>
     </div>
     <div>
-      <div class="vdr"><div class="vicon">⌂</div><div><span class="vlabel">Reception Venue</span><p class="vvalue">Lough Erne Resort<br>Belleck Road, Enniskillen<br>Co. Fermanagh, BT93 7ED</p></div></div>
-      <div class="vdr"><div class="vicon">⊕</div><div><span class="vlabel">Directions to Resort</span><p class="vvalue">From Moira, head west approx. 80 miles via the A4. From Enniskillen town centre take the A4 west; after 5 miles follow signs for Bellanaleck and Lough Erne Resort.</p></div></div>
-      <div class="vdr"><div class="vicon">★</div><div><span class="vlabel">Accommodation</span><p class="vvalue">A room block is reserved at the resort. Quote <strong>JEMMA &amp; RORY 2026</strong> when booking.</p></div></div>
-      <div class="vdr"><div class="vicon">◇</div><div><span class="vlabel">Drinks &amp; Canapé Reception</span><p class="vvalue">Join us from 3:00 pm for a drinks and canapé reception on arrival.</p></div></div>
+      <div class="vdr"><div class="vicon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#9B8B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="14" height="13"/><path d="M7 17v-5h4v5"/><line x1="6" y1="8" x2="8" y2="8"/><line x1="10" y1="8" x2="12" y2="8"/><line x1="6" y1="11" x2="8" y2="11"/><line x1="10" y1="11" x2="12" y2="11"/></svg></div><div><span class="vlabel">Reception Venue</span><p class="vvalue">Lough Erne Resort<br>Belleck Road, Enniskillen<br>Co. Fermanagh, BT93 7ED</p></div></div>
+      <div class="vdr"><div class="vicon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#9B8B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 16s-5.5-5.5-5.5-9a5.5 5.5 0 0 1 11 0c0 3.5-5.5 9-5.5 9z"/><circle cx="9" cy="7" r="2"/></svg></div><div><span class="vlabel">Directions to Resort</span><p class="vvalue">From Moira, head west approx. 80 miles via the A4. From Enniskillen town centre take the A4 west; after 5 miles follow signs for Bellanaleck and Lough Erne Resort.</p></div></div>
+      <div class="vdr"><div class="vicon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#9B8B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="10" width="14" height="5"/><path d="M2 10V7h4v3"/><rect x="8" y="7" width="8" height="3" rx="1"/></svg></div><div><span class="vlabel">Accommodation</span><p class="vvalue">A room block is reserved at the resort. Quote <strong>JEMMA &amp; RORY 2026</strong> when booking.</p></div></div>
+      <div class="vdr"><div class="vicon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#9B8B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h6l-2 8H8L6 2z"/><line x1="9" y1="10" x2="9" y2="15"/><line x1="6" y1="15" x2="12" y2="15"/></svg></div><div><span class="vlabel">Drinks &amp; Canapé Reception</span><p class="vvalue">Join us from 3:00 pm for a drinks and canapé reception on arrival.</p></div></div>
     </div>
   </div>
 </main>
