@@ -388,10 +388,7 @@
 
       <div class="attending-panel" id="attendingPanel">
         <div class="guest-rows" id="guestRows"></div>
-        <div style="margin-top:0.95rem;">
-          <label for="childGuestCount">Child Guests In Your Party</label>
-          <select id="childGuestCount"></select>
-        </div>
+
       </div>
 
       <div style="margin-top:1rem;">
@@ -692,18 +689,6 @@ function chooseInvite(invite) {
   const radios = document.querySelectorAll('input[name="attending"]');
   radios.forEach((r) => { r.checked = false; });
 
-  const childCount = document.getElementById('childGuestCount');
-  if (childCount) {
-    childCount.innerHTML = '';
-    for (let i = 0; i <= invite.maxParty; i += 1) {
-      const opt = document.createElement('option');
-      opt.value = String(i);
-      opt.textContent = String(i);
-      childCount.appendChild(opt);
-    }
-    childCount.value = '0';
-  }
-
   document.getElementById('attendingPanel').style.display = 'none';
   activeGuestCount = Math.max(1, selectedInvite.guestProfiles ? selectedInvite.guestProfiles.length : 1);
   buildGuestRows(activeGuestCount);
@@ -823,11 +808,6 @@ async function hydrateExistingResponse() {
 
     activeGuestCount = attendees.length || 1;
     buildGuestRows(activeGuestCount, attendees);
-    const childCount = document.getElementById('childGuestCount');
-    if (childCount) {
-      const existingChildCount = existingRows.filter((r) => r.childrensMenu === 'Yes').length;
-      childCount.value = String(Math.max(0, Math.min(maxParty, existingChildCount)));
-    }
   } else {
     radioNo.checked = true;
     document.getElementById('attendingPanel').style.display = 'none';
@@ -867,10 +847,6 @@ async function submitRSVP() {
     }
   }
 
-  const childGuestCount = attending === 'yes'
-    ? Math.max(0, Math.min(partySize, parseInt((document.getElementById('childGuestCount') || { value: '0' }).value, 10) || 0))
-    : 0;
-
   const message = document.getElementById('message').value.trim();
   const date = new Date().toLocaleDateString('en-GB');
 
@@ -885,7 +861,7 @@ async function submitRSVP() {
       guests: String(partySize),
       mainCourse: guest.mainCourse || '',
       dietary: guest.dietary || '',
-      childrensMenu: idx >= (partySize - childGuestCount) ? 'Yes' : 'No',
+      childrensMenu: guest.mainCourse === "Children's Menu" ? 'Yes' : 'No',
       message: idx === 0 ? message : '',
       date
     }));
