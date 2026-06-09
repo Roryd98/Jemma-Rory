@@ -388,9 +388,6 @@
 
       <div class="attending-panel" id="attendingPanel">
         <div class="guest-rows" id="guestRows"></div>
-        <div id="addGuestWrap" style="margin-top:0.65rem;display:none;">
-          <button class="btn btn-soft" id="addGuestBtn" type="button">+ Add Guest</button>
-        </div>
         <div style="margin-top:0.95rem;">
           <label for="childGuestCount">Child Guests In Your Party</label>
           <select id="childGuestCount"></select>
@@ -716,21 +713,12 @@ function chooseInvite(invite) {
 function getCurrentGuestData() {
   const names = [...document.querySelectorAll('.guest-name')];
   const mains = [...document.querySelectorAll('.guest-main')];
-  const steaks = [...document.querySelectorAll('.guest-steak')];
   const dietary = [...document.querySelectorAll('.guest-dietary')];
   return names.map((_, i) => ({
     name: names[i] ? names[i].value.trim() : '',
     mainCourse: mains[i] ? mains[i].value.trim() : '',
-    steakCook: steaks[i] ? steaks[i].value.trim() : '',
     dietary: dietary[i] ? dietary[i].value.trim() : ''
   }));
-}
-
-function refreshAddGuestBtn() {
-  const wrap = document.getElementById('addGuestWrap');
-  if (!wrap || !selectedInvite) return;
-  const hardCap = (selectedInvite.maxParty || 1) + 2;
-  wrap.style.display = activeGuestCount < hardCap ? 'block' : 'none';
 }
 
 function buildGuestRows(count, existing) {
@@ -744,7 +732,6 @@ function buildGuestRows(count, existing) {
     const presetIsChild = presetProfiles[i] ? !!presetProfiles[i].childrensMenu : false;
     const defaultsName = person && person.name ? person.name : (presetNames[i] || '');
     const defaultsCourse = person && person.mainCourse ? person.mainCourse : '';
-    const defaultsSteak = person && person.steakCook ? person.steakCook : '';
     const defaultsDietary = person && person.dietary ? person.dietary : '';
     const defaultsChild = person ? !!person.childrensMenu : presetIsChild;
 
@@ -772,35 +759,11 @@ function buildGuestRows(count, existing) {
           </select>
         </div>
       </div>
-      <div class="grid" style="margin-top:0.75rem;margin-bottom:0;">
-        <div class="guest-steak-wrap" style="display:${defaultsCourse === 'Fillet Steak' ? 'block' : 'none'};">
-          <label>Steak Cook (if selected)</label>
-          <select class="guest-steak">
-            <option value="">Please select</option>
-            <option${defaultsSteak === 'Pink' ? ' selected' : ''}>Pink</option>
-            <option${defaultsSteak === 'Well Done' ? ' selected' : ''}>Well Done</option>
-          </select>
-        </div>
-        <div>
-          <label>Dietary Requirements</label>
-          <input type="text" class="guest-dietary" value="${esc(defaultsDietary)}" placeholder="Optional dietary notes">
-        </div>
+      <div style="margin-top:0.75rem;">
+        <label>Dietary Requirements</label>
+        <input type="text" class="guest-dietary" value="${esc(defaultsDietary)}" placeholder="Optional dietary notes">
       </div>
     `;
-
-    const mainSelect = card.querySelector('.guest-main');
-    const steakWrap = card.querySelector('.guest-steak-wrap');
-    const steakSelect = card.querySelector('.guest-steak');
-    if (mainSelect && steakWrap && steakSelect) {
-      mainSelect.addEventListener('change', () => {
-        if (mainSelect.value === 'Fillet Steak') {
-          steakWrap.style.display = 'block';
-        } else {
-          steakWrap.style.display = 'none';
-          steakSelect.value = '';
-        }
-      });
-    }
 
     if (i > 0) {
       card.querySelector('.remove-guest-btn').addEventListener('click', () => {
@@ -813,22 +776,18 @@ function buildGuestRows(count, existing) {
 
     rows.appendChild(card);
   }
-  refreshAddGuestBtn();
 }
 
 function getAttendeeRows() {
   const names = [...document.querySelectorAll('.guest-name')];
   const mains = [...document.querySelectorAll('.guest-main')];
-  const steaks = [...document.querySelectorAll('.guest-steak')];
   const dietary = [...document.querySelectorAll('.guest-dietary')];
 
   const rows = [];
   for (let i = 0; i < names.length; i += 1) {
-    const mainChoice = mains[i].value.trim();
     rows.push({
       name: names[i].value.trim(),
-      mainCourse: mainChoice,
-      steakCook: mainChoice === 'Fillet Steak' ? steaks[i].value.trim() : '',
+      mainCourse: mains[i].value.trim(),
       dietary: dietary[i].value.trim()
     });
   }
@@ -859,7 +818,6 @@ async function hydrateExistingResponse() {
     const attendees = existingRows.map((r) => ({
       name: r.name || '',
       mainCourse: r.mainCourse || '',
-      steakCook: r.steakCook || '',
       dietary: r.dietary || ''
     }));
 
@@ -926,7 +884,6 @@ async function submitRSVP() {
       attending,
       guests: String(partySize),
       mainCourse: guest.mainCourse || '',
-      steakCook: guest.steakCook || '',
       dietary: guest.dietary || '',
       childrensMenu: idx >= (partySize - childGuestCount) ? 'Yes' : 'No',
       message: idx === 0 ? message : '',
@@ -941,7 +898,6 @@ async function submitRSVP() {
       attending,
       guests: '0',
       mainCourse: '',
-      steakCook: '',
       dietary: '',
       childrensMenu: 'No',
       message,
@@ -983,7 +939,6 @@ function attachEvents() {
     radio.addEventListener('change', () => {
       const show = radio.value === 'yes' && radio.checked;
       document.getElementById('attendingPanel').style.display = show ? 'block' : 'none';
-      if (show) refreshAddGuestBtn();
     });
   });
 
@@ -995,16 +950,6 @@ function attachEvents() {
     document.getElementById('successBox').style.display = 'none';
   });
 
-  const addGuestBtn = document.getElementById('addGuestBtn');
-  if (addGuestBtn) {
-    addGuestBtn.addEventListener('click', () => {
-      const hardCap = (selectedInvite.maxParty || 1) + 2;
-      if (!selectedInvite || activeGuestCount >= hardCap) return;
-      const currentData = getCurrentGuestData();
-      activeGuestCount = Math.min(activeGuestCount + 1, hardCap);
-      buildGuestRows(activeGuestCount, currentData);
-    });
-  }
 }
 
 (async function init() {
