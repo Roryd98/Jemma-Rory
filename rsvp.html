@@ -795,18 +795,44 @@ async function hydrateExistingResponse() {
     if (r.inviteId && r.inviteId === selectedInvite.id) return true;
     return selectedNames.some((n) => normalize(r.name) === normalize(n));
   });
-  if (!existingRows.length) return;
-  const existing = existingRows[0];
 
+  const inviteProfiles = Array.isArray(selectedInvite.guestProfiles)
+    ? selectedInvite.guestProfiles.map((guest) => ({
+        name: guest.name || '',
+        mainCourse: '',
+        dietary: '',
+        childrensMenu: !!guest.childrensMenu
+      }))
+    : [];
+
+  const existingNames = existingRows
+    .map((r) => normalize(r.name))
+    .filter(Boolean);
+  const inviteNames = inviteProfiles.map((guest) => normalize(guest.name)).filter(Boolean);
+  const hasDuplicateExistingNames = new Set(existingNames).size !== existingNames.length;
+  const namesMatchInvite = inviteNames.length > 0
+    && existingNames.length > 0
+    && existingNames.length === inviteNames.length
+    && existingNames.every((name) => inviteNames.includes(name))
+    && inviteNames.every((name) => existingNames.includes(name));
+  const shouldUseExisting = existingRows.length > 0 && !hasDuplicateExistingNames && namesMatchInvite;
+
+  if (!shouldUseExisting) {
+    const fallbackRows = inviteProfiles.length ? inviteProfiles : [{ name: selectedInvite.leadName || '', mainCourse: '', dietary: '', childrensMenu: false }];
+    activeGuestCount = Math.max(1, fallbackRows.length);
+    buildGuestRows(activeGuestCount, fallbackRows);
+    document.getElementById('attendingPanel').style.display = 'none';
+    document.getElementById('message').value = '';
+    return;
+  }
+
+  const existing = existingRows[0];
   const radioYes = document.querySelector('input[name="attending"][value="yes"]');
   const radioNo = document.querySelector('input[name="attending"][value="no"]');
 
   if (existing.attending === 'yes') {
     radioYes.checked = true;
     document.getElementById('attendingPanel').style.display = 'block';
-    const partySize = Math.max(1, parseInt(existing.guests, 10) || selectedInvite.maxParty || 1);
-    const maxParty = Math.max(1, selectedInvite.maxParty || 1);
-
     const attendees = existingRows.map((r) => ({
       name: r.name || '',
       mainCourse: r.mainCourse || '',
