@@ -731,10 +731,7 @@ function buildGuestRows(count, existing) {
     const card = document.createElement('div');
     card.className = 'guest-row';
     card.innerHTML = `
-      <div class="guest-row-header">
-        <div class="guest-row-title">${i === 0 ? 'Primary Guest' : `Guest ${i + 1}`}</div>
-        ${i > 0 ? '<button class="remove-guest-btn" type="button">Remove</button>' : ''}
-      </div>
+      ${i > 0 ? '<div class="guest-row-header"><button class="remove-guest-btn" type="button">Remove</button></div>' : ''}
       <div class="grid" style="margin-bottom:0;">
         <div>
           <label>Name</label>
