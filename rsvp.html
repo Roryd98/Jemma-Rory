@@ -681,7 +681,6 @@ function chooseInvite(invite) {
   chosen.style.display = 'block';
   chosen.innerHTML = `
     <p class="chosen-line"><strong>Invite selected:</strong> ${esc(invite.displayName || invite.leadName)}</p>
-    <p class="chosen-line"><strong>Type:</strong> ${esc(invite.inviteType)}</p>
     <p class="chosen-line"><strong>Maximum party size:</strong> ${invite.maxParty}</p>
   `;
 
