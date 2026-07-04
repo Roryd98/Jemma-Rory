@@ -946,9 +946,12 @@ function attachEvents() {
 
   document.querySelectorAll('input[name="attending"]').forEach((radio) => {
     radio.addEventListener('change', () => {
-      const show = radio.value === 'yes' && radio.checked;
-      document.getElementById('attendingPanel').style.display = show ? 'block' : 'none';
-      if (show) refreshAddGuestBtn();
+      window.requestAnimationFrame(() => {
+        const checked = document.querySelector('input[name="attending"]:checked');
+        const show = checked?.value === 'yes';
+        document.getElementById('attendingPanel').style.display = show ? 'block' : 'none';
+        if (show) refreshAddGuestBtn();
+      });
     });
   });
 
