@@ -788,11 +788,13 @@ function getAttendeeRows() {
 
 async function hydrateExistingResponse() {
   if (!selectedInvite) return;
+  const inviteAtStart = selectedInvite;
+
+  const list = await getRSVPs();
+  if (!selectedInvite || selectedInvite !== inviteAtStart) return;
 
   const currentAttendingChoice = document.querySelector('input[name="attending"]:checked')?.value || '';
   const userHasChosenAttending = Boolean(currentAttendingChoice);
-
-  const list = await getRSVPs();
   const selectedNames = Array.isArray(selectedInvite.guestNames) ? selectedInvite.guestNames : [selectedInvite.leadName];
   const existingRows = list.filter((r) => {
     if (r.inviteId && r.inviteId === selectedInvite.id) return true;
@@ -839,8 +841,6 @@ async function hydrateExistingResponse() {
   const radioNo = document.querySelector('input[name="attending"][value="no"]');
 
   if (existing.attending === 'yes') {
-    radioYes.checked = true;
-    document.getElementById('attendingPanel').style.display = 'block';
     const attendees = existingRows.map((r) => ({
       name: r.name || '',
       mainCourse: r.mainCourse || '',
@@ -849,10 +849,20 @@ async function hydrateExistingResponse() {
 
     activeGuestCount = attendees.length || 1;
     buildGuestRows(activeGuestCount, attendees);
-  } else {
-    radioNo.checked = true;
     if (!userHasChosenAttending) {
+      radioYes.checked = true;
+      document.getElementById('attendingPanel').style.display = 'block';
+    } else if (currentAttendingChoice === 'yes') {
+      document.getElementById('attendingPanel').style.display = 'block';
+      refreshAddGuestBtn();
+    }
+  } else {
+    if (!userHasChosenAttending) {
+      radioNo.checked = true;
       document.getElementById('attendingPanel').style.display = 'none';
+    } else if (currentAttendingChoice === 'yes') {
+      document.getElementById('attendingPanel').style.display = 'block';
+      refreshAddGuestBtn();
     }
   }
 
