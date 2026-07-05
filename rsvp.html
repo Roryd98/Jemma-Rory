@@ -789,6 +789,9 @@ function getAttendeeRows() {
 async function hydrateExistingResponse() {
   if (!selectedInvite) return;
 
+  const currentAttendingChoice = document.querySelector('input[name="attending"]:checked')?.value || '';
+  const userHasChosenAttending = Boolean(currentAttendingChoice);
+
   const list = await getRSVPs();
   const selectedNames = Array.isArray(selectedInvite.guestNames) ? selectedInvite.guestNames : [selectedInvite.leadName];
   const existingRows = list.filter((r) => {
@@ -821,7 +824,12 @@ async function hydrateExistingResponse() {
     const fallbackRows = inviteProfiles.length ? inviteProfiles : [{ name: selectedInvite.leadName || '', mainCourse: '', dietary: '', childrensMenu: false }];
     activeGuestCount = Math.max(1, fallbackRows.length);
     buildGuestRows(activeGuestCount, fallbackRows);
-    document.getElementById('attendingPanel').style.display = 'none';
+    if (!userHasChosenAttending) {
+      document.getElementById('attendingPanel').style.display = 'none';
+    } else if (currentAttendingChoice === 'yes') {
+      document.getElementById('attendingPanel').style.display = 'block';
+      refreshAddGuestBtn();
+    }
     document.getElementById('message').value = '';
     return;
   }
@@ -843,7 +851,9 @@ async function hydrateExistingResponse() {
     buildGuestRows(activeGuestCount, attendees);
   } else {
     radioNo.checked = true;
-    document.getElementById('attendingPanel').style.display = 'none';
+    if (!userHasChosenAttending) {
+      document.getElementById('attendingPanel').style.display = 'none';
+    }
   }
 
   document.getElementById('message').value = existing.message || '';
